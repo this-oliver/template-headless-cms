@@ -1,55 +1,21 @@
 {
   "name": "headless-cms",
   "version": "1.0.1",
-  "private": true,
   "description": "headless cms powered by Strapi",
-  "engines": {
-    "node": "22.x.x",
-    "npm": ">=6.0.0"
-  },
   "scripts": {
-    "build": "strapi build",
-    "console": "strapi console",
-    "deploy": "strapi deploy",
-    "dev": "strapi develop",
-    "prepare": "npx husky",
-    "start": "strapi start",
-    "strapi": "strapi",
-    "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "token": "npx ts-node ./scripts/tokens.ts"
+    "lint:fix": "eslint --fix ."
   },
-  "dependencies": {
-    "@strapi/plugin-cloud": "5.12.4",
-    "@strapi/plugin-graphql": "^5.12.6",
-    "@strapi/plugin-users-permissions": "5.12.4",
-    "@strapi/strapi": "5.12.4",
-    "better-sqlite3": "11.3.0",
-    "fs-extra": "^10.0.0",
-    "mime-types": "^2.1.27",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
     "eslint": "^9.27.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.0",
-    "typescript": "^5"
+    "lint-staged": "^16.1.0"
   },
   "lint-staged": {
     "*": "npm run lint"
-  },
-  "strapi": {
-    "uuid": "6187172f-80df-42f6-b942-29b2613eea77"
   }
 }

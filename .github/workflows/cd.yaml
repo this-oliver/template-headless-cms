@@ -6,7 +6,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   release:
@@ -30,9 +29,14 @@ jobs:
     if: needs.release.outputs.released == 'true' || github.event_name == 'workflow_dispatch'
     needs: release
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [cms]
     permissions:
       contents: read # needs write permission to push tag and release
       packages: write # needs write permission to publish Docker image
+    env:
+      IMAGE_NAME: ${{ github.repository }}-${{ matrix.service }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
@@ -49,10 +53,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
 
-      - name: Build and push
+      - name: Build and push cms
         uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
         with:
-          context: .
+          context: src/${{ matrix.service }}
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.released == 'true' && needs.release.outputs.tag || 'latest' }}
