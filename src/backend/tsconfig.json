@@ -30,7 +30,7 @@
     "build/",
     "dist/",
     ".cache/",
-    ".tmp/",
+    ".database/",
     ".strapi/",
 
     // Do not include admin files in the server compilation
