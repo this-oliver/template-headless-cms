@@ -129,6 +129,7 @@ exports
 .strapi
 dist
 build
+types/generated/
 src/api/
 .strapi-updater.json
 .strapi-cloud.json

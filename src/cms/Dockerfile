@@ -1,4 +1,4 @@
-FROM node:22.17.0-alpine
+FROM node:24-bookworm-slim@sha256:2c87ef9bd3c6a3bd4b472b4bec2ce9d16354b0c574f736c476489d09f560a203
 
 # Define build arguments (with defaults) and set environment variables
 ARG HOST=0.0.0.0
