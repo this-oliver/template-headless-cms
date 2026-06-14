@@ -3,11 +3,11 @@
 !.env.example
 
 # Strapi
-src/cms/.database/
-src/cms/.strapi/
-src/cms/dist/
-src/cms/types/generated/
-src/cms/.strapi-updater.json
+src/backend/.database/
+src/backend/.strapi/
+src/backend/dist/
+src/backend/types/generated/
+src/backend/.strapi-updater.json
 
 # Logs
 logs

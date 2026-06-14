@@ -17,7 +17,7 @@
       1,
       "always",
       [
-        "cms",
+        "backend",
         "cicd",
         "deps"
       ]

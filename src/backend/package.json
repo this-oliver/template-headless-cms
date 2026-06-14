@@ -1,6 +1,6 @@
 {
-  "name": "template-cms",
-  "description": "content management system",
+  "name": "backend",
+  "description": "a content management system powered by Strapi",
   "engines": {
     "node": ">=20.0.0 <=24.x.x",
     "npm": ">=6.0.0"
