@@ -7,6 +7,7 @@ This backend implements a content management system (CMS) powered by [Strapi](ht
 Prerequisites:
 - Node.js 24+
 - PNPM 11+
+- Prepare environmental variables (see [.env.example](./.env.example))
 
 Install dependencies:
 

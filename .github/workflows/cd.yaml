@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [backend]
+        service: [backend, frontend]
     permissions:
       contents: read # needs write permission to push tag and release
       packages: write # needs write permission to publish Docker image

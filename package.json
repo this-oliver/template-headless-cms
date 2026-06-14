@@ -1,7 +1,7 @@
 {
-  "name": "headless-cms",
+  "name": "template-headless-cms",
   "version": "1.0.1",
-  "description": "headless cms powered by Strapi",
+  "description": "a template for a headless cms powered by Strapi and Nuxt",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
