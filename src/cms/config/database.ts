@@ -1,6 +1,7 @@
+import type { Core } from "@strapi/strapi";
 import path from "node:path";
 
-export default ({ env }) => {
+function config({ env }: Core.Config.Shared.ConfigParams): Core.Config.Database {
   const client = env("DATABASE_CLIENT", "sqlite");
 
   const connections = {
@@ -57,4 +58,6 @@ export default ({ env }) => {
       acquireConnectionTimeout: env.int("DATABASE_CONNECTION_TIMEOUT", 60000)
     }
   };
-};
+}
+
+export default config;

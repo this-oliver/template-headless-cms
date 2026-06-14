@@ -1,25 +1,26 @@
 {
   "name": "template-cms",
+  "description": "content management system",
   "engines": {
-    "node": "24.x.x",
-    "npm": ">=6.x.x"
+    "node": ">=20.0.0 <=24.x.x",
+    "npm": ">=6.0.0"
   },
   "scripts": {
     "build": "strapi build",
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",
-    "prepare": "npx husky",
+    "develop": "strapi develop",
+    "seed:example": "node ./scripts/seed.js",
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry",
-    "token": "npx ts-node ./scripts/tokens.ts"
+    "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
     "@strapi/plugin-users-permissions": "5.48.0",
     "@strapi/strapi": "5.48.0",
-    "better-sqlite3": "12.10.0",
+    "better-sqlite3": "12.8.0",
     "fs-extra": "^10.0.0",
     "mime-types": "^2.1.27",
     "react": "^18.0.0",

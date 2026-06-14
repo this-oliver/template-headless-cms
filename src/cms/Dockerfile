@@ -13,18 +13,24 @@ ARG PORT=1337
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 
 # Install dependencies
-RUN npm install --production
+RUN npm install -g pnpm@11.5.0 \
+  && pnpm install
 
 # Copy the rest of the application code
 COPY config/ ./config/
+COPY database/ ./database/
 COPY public/ ./public/
 COPY src/ ./src/
 COPY favicon.png ./
 COPY tsconfig.json ./
-COPY entrypoint.sh ./
+
+# Build the application
+RUN pnpm build
 
 # Expose the port the app runs on
 EXPOSE $PORT
@@ -34,4 +40,4 @@ RUN chown -R node:node /app
 USER node
 
 # Start the application
-ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
+ENTRYPOINT ["pnpm", "start"]

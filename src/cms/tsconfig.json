@@ -5,7 +5,6 @@
     "lib": ["ES2020"],
     "rootDir": ".",
     "module": "CommonJS",
-    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "strict": false,
     "noImplicitThis": true,
@@ -32,6 +31,7 @@
     "dist/",
     ".cache/",
     ".tmp/",
+    ".strapi/",
 
     // Do not include admin files in the server compilation
     "src/admin/",
