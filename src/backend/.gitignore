@@ -1,0 +1,9 @@
+.strapi/
+.tmp/
+.database/
+data/
+dist/
+node_modules/
+public/uploads/
+types/generated/
+.strapi-updater.json

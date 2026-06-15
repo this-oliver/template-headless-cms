@@ -1,28 +1,20 @@
-version: '3.8'
-
 services:
-  cms:
+  backend:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
-    env_file:
-      - .env
-    expose:
-      - '1337'
+      context: src/backend
+    container_name: backend
+    env_file: src/backend/.env
     volumes:
-      - ./src:/app/src
-      - ./public:/app/public
-      - ./.database:/app/.database
-    restart: unless-stopped
-
-nginx:
-  image: nginx:latest
-  ports:
-    - '80:80'
-  volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    # - ./logs:/var/log/nginx
-    # - ./ssl/your_cert.pem:/etc/ssl/certs/cert.pem:ro
-    # - ./ssl/your_key.pem:/etc/ssl/private/key.pem:ro
-  depends_on:
-    - cms
+      - ./src/backend/.database:/app/.database
+    ports:
+      - '1337:1337'
+  frontend:
+    build:
+      context: src/frontend
+    container_name: frontend
+    env_file: src/frontend/.env
+    environment:
+      NODE_ENV: production
+      NUXT_BACKEND_BASE_URL: http://backend:1337
+    ports:
+      - '3000:3000'

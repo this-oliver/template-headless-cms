@@ -12,6 +12,20 @@
         "chore",
         "docs"
       ]
+    ],
+    "scope-enum": [
+      1,
+      "always",
+      [
+        "backend",
+        "cicd",
+        "deps"
+      ]
+    ],
+    "body-max-length": [
+      1,
+      "always",
+      200
     ]
   }
 }

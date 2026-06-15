@@ -1,28 +1,62 @@
+# Possible relevant ecosystems:
+# - github-actions
+# - npm
+# - docker
+
 version: 2
+
 updates:
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: daily
-    commit-message:
-      prefix: 'chore(security): '
-    # Disable version updates for npm dependencies
-    open-pull-requests-limit: 0
-
-  - package-ecosystem: docker
-    directory: /
-    schedule:
-      interval: daily
-    commit-message:
-      prefix: 'chore(security): '
-    # Disable version updates for docker dependencies
-    open-pull-requests-limit: 0
-
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
+      interval: weekly
     commit-message:
-      prefix: 'chore(security): '
-    # Disable version updates for GitHub Actions dependencies
-    open-pull-requests-limit: 0
+      prefix: 'chore(dep): '
+    open-pull-requests-limit: 10
+    target-branch: main
+    labels:
+      - dependencies
+    # IMPORTANT: The group IDs are used in auto-merge workflow. Make sure to update the
+    # references in your workflow to match the group IDs if you decide to change them.
+    groups:
+      safe-updates-version:
+        applies-to: version-updates
+        update-types:
+          - patch
+          - minor
+      safe-updates-security:
+        applies-to: security-updates
+        update-types:
+          - patch
+          - minor
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'chore(dep): '
+    open-pull-requests-limit: 10
+    target-branch: main
+    labels:
+      - dependencies
+    # IMPORTANT: The group IDs are used in auto-merge workflow. Make sure to update the
+    # references in your workflow to match the group IDs if you decide to change them.
+    groups:
+      safe-updates-version:
+        applies-to: version-updates
+        update-types:
+          - patch
+      safe-updates-security:
+        applies-to: security-updates
+        update-types:
+          - patch
+          - minor
+      safe-updates-packages:
+        applies-to: version-updates
+        patterns:
+          - '@antfu/eslint-config'
+          - '@commitlint/*'
+          - '@nuxt/eslint'
+          - eslint
+          - lint-staged
