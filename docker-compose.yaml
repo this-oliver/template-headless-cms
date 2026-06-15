@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: src/backend
+    container_name: backend
+    env_file: src/backend/.env
+    volumes:
+      - ./src/backend/.database:/app/.database
+    ports:
+      - '1337:1337'
+  frontend:
+    build:
+      context: src/frontend
+    container_name: frontend
+    env_file: src/frontend/.env
+    environment:
+      NODE_ENV: production
+      NUXT_BACKEND_BASE_URL: http://backend:1337
+    ports:
+      - '3000:3000'
