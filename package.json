@@ -8,12 +8,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@antfu/eslint-config": "^4.13.2",
+    "@antfu/eslint-config": "^9.0.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "eslint": "^9.27.0",
+    "eslint": "^10.5.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.0"
+    "lint-staged": "^17.0.7"
   },
   "lint-staged": {
     "*": "npm run lint"
