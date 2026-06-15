@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/this-oliver/template-headless-cms/compare/v1.0.1...v1.1.0) (2026-06-15)
+
+
+### Features
+
+* adds starter frontend ([#20](https://github.com/this-oliver/template-headless-cms/issues/20)) ([275bf83](https://github.com/this-oliver/template-headless-cms/commit/275bf835a08bdc42fa49c8e443022de6cfec01b0))
+
 ## [1.0.1](https://github.com/this-oliver/headless-cms/compare/v1.0.0...v1.0.1) (2025-07-28)
 
 
