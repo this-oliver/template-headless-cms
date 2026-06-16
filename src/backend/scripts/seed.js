@@ -23,9 +23,9 @@ function generateEnvFile() {
     },
     SECRETS: {
       APP_KEYS: `${generateHexToken()},${generateHexToken()},${generateHexToken()}`,
-      API_TOKEN_SALT: "",
+      API_TOKEN_SALT: generateHexToken(),
       ADMIN_JWT_SECRET: generateHexToken(),
-      TRANSFER_TOKEN_SALT: "",
+      TRANSFER_TOKEN_SALT: generateHexToken(),
       ENCRYPTION_KEY: generateHexToken()
     },
     DATABASE: {
