@@ -1,0 +1,2 @@
+CVE-2026-53571 exp:2026-08-01             # [vite in src/backend]{not exposed to windows}
+GHSA-gv7w-rqvm-qjhr exp:2026-08-01        # [esbuild in src/backend]{need it for admin panel}

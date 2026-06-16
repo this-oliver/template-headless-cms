@@ -6,7 +6,5 @@ allowBuilds:
   sharp: true
 
 overrides:
-  esbuild: '>=0.28.1'
   lodash: '>=4.18.0'
-  vite: '>=6.4.3'
   ws: '>=8.21.0'
