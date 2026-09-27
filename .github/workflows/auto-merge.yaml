@@ -1,13 +1,16 @@
 # Auto-merge Dependabot PRs
 
-name: Auto Merge Dependabot PRs
+name: Dependabot Auto Merge
 
 on:
   pull_request:
     types:
+      - opened
       - labeled
     branches:
       - main
+
+  workflow_dispatch:
 
   schedule:
     - cron: '30 2 * * *'
@@ -23,12 +26,11 @@ jobs:
       # Dependabot group defined in dependabot.yaml
       - name: Merge Safe Dependabot PRs
         run: |
-          for pr_number in $(gh pr list --state open --author 'dependabot[bot]' --json number | jq -r '.[] | .number'); do
-            TITLE=$(gh pr view $pr_number --json title --jq '.title')
-
+          for pr_number in $(gh pr list --repo ${{ github.repository }} --state open --author 'dependabot[bot]' --json number,mergeable | jq '.[] | select(.mergeable == "MERGEABLE") | .number'); do
+            TITLE=$(gh pr view $pr_number --repo ${{ github.repository }} --json title --jq '.title')
             if [[ "$TITLE" == *'safe-updates'* ]]; then
               echo "::notice :: Merging PR ${pr_number}"
-              gh pr merge --squash --delete-branch $pr_number
+              gh pr merge --repo ${{ github.repository }} --squash --delete-branch $pr_number
             else
               echo "::warning :: Skipping PR ${pr_number} because the title, '$TITLE', doesn't contain 'safe-updates'"
             fi
