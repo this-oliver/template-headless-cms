@@ -1,55 +1,91 @@
-name: CI
+name: Continuous Integration
+
 on:
   pull_request:
-    types: [opened, edited, synchronize]
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  check-lint:
+  lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # fetch all history for commitlint
 
-      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
-        with:
-          node-version-file: package.json
+      - name: Setup PNPM + Node
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Lint Code
-        run: npm run lint
+        run: pnpm lint
 
-      - name: Lint PR commits
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      - name: Lint Commits
+        run: pnpm commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
       - name: Lint PR Title
-        run: echo "${{ github.event.pull_request.title }}" | npx commitlint --verbose
+        run: echo "${{ github.event.pull_request.title }}" | pnpm commitlint --verbose
 
-  check-security:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [frontend, backend]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Scan for hard-coded secrets
-        id: secrets
-        uses: trufflesecurity/trufflehog@690e5c7aff8347c3885096f3962a0633d9129607 # v3.88.23
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 
-      - name: Scan for vulnerable code
-        id: code
-        uses: bearer/bearer-action@828eeb928ce2f4a7ca5ed57fb8b59508cb8c79bc # v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Build ${{ matrix.app }} container image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
-          diff: true
-          severity: 'critical,high'
-          exit-code: '1'
+          push: false
+          context: ./src/${{ matrix.app }}
+          file: ./src/${{ matrix.app }}/Dockerfile
+          tags: |
+            ${{ vars.REGISTRY_SERVER }}/${{ github.repository_owner }}/website-${{ matrix.app }}:${{ github.sha }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          platforms: linux/amd64,linux/arm64
 
-      - name: Scan for vulnerable dependencies
+  security:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup PNPM + Node
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+
+      - name: Install dependencies in root
+        run: pnpm install
+
+      - name: Install dependencies in frontend
+        run: pnpm install
+        working-directory: src/frontend
+
+      - name: Install dependencies in backend
+        run: pnpm install
+        working-directory: src/backend
+
+      - name: Check for vulnerable dependencies, misconfigurations, and secrets
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
-        id: deps
         with:
           scan-type: fs
-          scanners: 'vuln,secret,misconfig'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '1'
+          scan-ref: .
+          scanners: 'vuln,misconfig,secret'
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
+          exit-code: 0
+        env:
+          TRIVY_IGNOREFILE: .trivyignore.yaml

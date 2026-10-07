@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "description": "a content management system powered by Strapi",
+  "packageManager": "pnpm@12.4.1",
   "engines": {
     "node": ">=20.0.0 <=24.x.x",
     "npm": ">=6.0.0"

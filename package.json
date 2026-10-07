@@ -2,6 +2,7 @@
   "name": "template-headless-cms",
   "version": "1.0.1",
   "description": "a template for a headless cms powered by Strapi and Nuxt",
+  "packageManager": "pnpm@12.4.1",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."

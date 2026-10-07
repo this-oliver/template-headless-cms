@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "type": "module",
+  "packageManager": "pnpm@12.4.1",
   "description": "a user interface powered by Nuxt",
   "engines": {
     "node": ">=22.0.0 <=24.x.x",
